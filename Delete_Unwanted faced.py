@@ -33,6 +33,12 @@ def main():
     rt.convertToPoly(box)
     rt.ProBoolean.createBooleanObject(box,temp, 0, 2, 0)
     rt.convertToPoly(box)
-    rt.select(
+    rt.select(box)
+    rt.polyop.setFaceSelection(box, rt.name('all'))
+    rt.subObjectLevel = 4
+    rt.subObjectLevel = 0
     rt.select(source)
+    rt.polyop.attach(source,box)
+    rt.macros.run("xView" "xView_Overlapping_Faces_Checker")
+
 main()
