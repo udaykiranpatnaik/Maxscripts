@@ -24,6 +24,7 @@ def combine_selected_objects():
         combine_objects(*rt.selection)
     source = rt.selection[0]
     return source
+    
 def main():
     source = combine_selected_objects()
     temp = rt.copy(source)
@@ -34,11 +35,23 @@ def main():
     rt.ProBoolean.createBooleanObject(box,temp, 0, 2, 0)
     rt.convertToPoly(box)
     rt.select(box)
-    rt.polyop.setFaceSelection(box, rt.name('all'))
+    obj = rt.getCurrentSelection()[0]
+    rt.polyop.setFaceSelection(obj,rt.name('all'))
     rt.subObjectLevel = 4
+    face_selection_obj = rt.polyop.getFaceSelection(obj)
+    rt.polyop.setFaceSelection(obj,face_selection_obj)
     rt.subObjectLevel = 0
     rt.select(source)
-    rt.polyop.attach(source,box)
-    rt.macros.run("xView" "xView_Overlapping_Faces_Checker")
+    rt.polyop.attach(source,obj)
+    occluded_faces = []
+    result = rt.OverlappingFaces.Check(rt.currentTime, source, pymxs.byref(occluded_faces))
+    rt.polyop.setFaceSelection(source,result)
+    #~ rt.subObjectLevel = 4
+    #~rt.polyop.attach(source,box)
+
+    #~ faces = []
+    #~ result = rt.OverlappingFaces.Check(rt.currentTime, source, pymxs.mxsreference(faces))
+    #~ rt.polyop.setFaceSelection(source,faces)
+    #~ rt.subObjectLevel = 4
 
 main()
