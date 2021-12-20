@@ -43,15 +43,42 @@ def main():
     rt.subObjectLevel = 0
     rt.select(source)
     rt.polyop.attach(source,obj)
-    occluded_faces = []
-    result = rt.OverlappingFaces.Check(rt.currentTime, source, pymxs.byref(occluded_faces))
-    rt.polyop.setFaceSelection(source,result)
-    #~ rt.subObjectLevel = 4
+    source_face_selection = rt.polyop.setFaceSelection(source,rt.name('all'))
+    rt.subObjectLevel = 4
+    rt.subObjectLevel = 0
+    overlapped_faces_xview = []
+    result = rt.OverlappingFaces.Check(rt.currentTime, source, pymxs.byref(overlapped_faces_xview))
+    overlapped_faces =  rt.polyop.getFaceSelection(source)
+    rt.polyop.setFaceSelection(source,overlapped_faces)
+    rt.subObjectLevel = 4
+    
+    
     #~rt.polyop.attach(source,box)
 
     #~ faces = []
     #~ result = rt.OverlappingFaces.Check(rt.currentTime, source, pymxs.mxsreference(faces))
     #~ rt.polyop.setFaceSelection(source,faces)
+    #~ rt.subObjectLevel = 4
+    
+    #~ import MaxPlus
+    #~ from pymxs import runtime as rt
+    #~ obj = rt.selection[0]
+    #~ print("NUM_FACES :%s" %rt.polyop.getNumFaces(obj))
+    #~ rt.polyop.setFaceSelection(obj,rt.name('all'))
+    #~ rt.subObjectLevel = 4
+    #~ all_faces = rt.getFaceSelection(obj)
+
+    #~ print("ALL : %s" %all_faces)
+    #~ faces_xview = []
+    #~ result = rt.OverlappingFaces.Check(rt.currentTime, obj, pymxs.byref(faces_xview))
+    #~ overlapping_faces = result[1]
+    #~ rt.polyop.setFaceSelection(obj,overlapping_faces)
+    #~ rt.subObjectLevel = 4
+    #~ print("OVER: %s" %overlapping_faces)
+    rt.subObjectLevel = 0
+    #~ invert_faces = all_faces - overlapping_faces
+
+    #~ rt.polyop.setFaceSelection(obj, invert_faces)
     #~ rt.subObjectLevel = 4
 
 main()
