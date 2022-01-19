@@ -5,6 +5,7 @@ function Main = (
 		check_for_overlapped_faces(temp_obj)
 	)
 
+-- Combine array of selected objects in the scene
 function combine_meshes objectArr = (
 		first = objectArr[1]
 		convertToPoly first
@@ -14,6 +15,7 @@ function combine_meshes objectArr = (
 		return first
 	)
 
+-- Duplicating the combined meshes and booleaning with a temporary mesh to remove occluded faces
 function create_temp_mesh obj = (
 		select obj
 		maxOps.CloneNodes obj cloneType:#copy newNodes:&obj_clone
@@ -30,10 +32,10 @@ function create_temp_mesh obj = (
 		return temp
 	)
 
+-- Using XnView OverlappingFaces option to check for overlapping faces between the source combined and the booleaned mesh
 function check_for_overlapped_faces obj = (
 		select obj
-		xViewChecker.on = True
-	
+		xViewChecker.on = True	
 	)
 
 rollout DeleteOccluded "Delete Occluded Faces" width:278 height:178
